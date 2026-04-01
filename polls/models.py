@@ -16,9 +16,16 @@ class Question(models.Model):
         return now-datetime.timedelta(days=1)<=self.pub_date<=now
 
 class Choice(models.Model):
+    affirmation_choices=[
+        ("y", "Postive"),
+        ("n", "Negative"),
+        ("x", "Not Sure"),
+    ]
     question=models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text=models.CharField(max_length=100)
+    choice_text=models.CharField(max_length=100,primary_key=True)
     votes=models.IntegerField(default=0)
+    get_choice=models.CharField(max_length=1, choices=affirmation_choices)
+    
 
     def __str__(self):
         return self.choice_text
